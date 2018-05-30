@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Plano de Saúde | Mini-App</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body ng-app="saudeApp" ng-controller="appCtrl">
+	<form novalidate name="myForm">
+		<div>
+			<input type="text" name="name" ng-model="user.name" placeholder="Seu nome:" required>
+			<input type="email" name="email" ng-model="user.email" placeholder="Seu email:" required>
+			<input type="tel" name="tel" ng-model="user.phone" placeholder="Seu telefone: (opcional)">
+		</div>
+		<select ng-model="user.operadora" ng-options="oper for oper in operadoras" required>
+			<option value="" disabled selected>Sua Operadora</option>
+		</select>
+		<div>
+			<in
+		</div>
+		<div>
+			<button ng-click="more()">+</button><button ng-click="less()">-</button><button ng-click="question=!question">?</button>
+		</div>
+		<div ng-show="question">Você pode preencher os valores das parcelas de até 10 anos atrás. A planilha se atualizará enquanto é preenchida. No final, clique em Enviar!</div>
+		<table>
+			<tr><th>Ano</th><th>Valor</th></tr>
+			<tr ng-repeat="parcela in installment | orderBy:'year':reverse">
+				<td>{{parcela.year}}</td>
+				<td><input style="text-align: right;" type="number" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" ng-model="parcela.value" step="0.01" min="0" max="9999.99" ng-change="calcular()"></td>
+			</tr>
+		</table>
+		<div>Valor a ser restituído: {{user.resultado|currency:'R$'}}</div>
+		<input type="submit" value="Enviar" ng-disabled="myForm.$invalid">
+	</form>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular.min.js"></script>
+	<script src="saudeApp.js"></script>
+</body>
+</html>
